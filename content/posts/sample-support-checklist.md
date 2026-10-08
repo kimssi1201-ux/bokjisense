@@ -5,6 +5,7 @@ category: government
 date: "2026-10-04"
 updated: "2026-10-04"
 sample: true
+draft: true
 tags: [공고확인, 서류준비]
 summary:
   - "SAMPLE: 실제 지원사업의 금액·자격·일정을 안내하는 글이 아닙니다."

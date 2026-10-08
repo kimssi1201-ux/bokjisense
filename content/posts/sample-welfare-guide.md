@@ -5,6 +5,7 @@ category: welfare
 date: "2026-10-04"
 updated: "2026-10-04"
 sample: true
+draft: true
 tags: [공고확인, 정보확인]
 summary:
   - "SAMPLE: 특정 복지제도의 지원 조건이나 혜택을 설명하지 않습니다."

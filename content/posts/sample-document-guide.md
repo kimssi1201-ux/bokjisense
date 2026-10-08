@@ -5,6 +5,7 @@ category: life
 date: "2026-10-04"
 updated: "2026-10-04"
 sample: true
+draft: true
 tags: [서류준비, 정보확인]
 summary:
   - "SAMPLE: 특정 정책의 필수 제출 서류를 안내하지 않습니다."

@@ -4,6 +4,11 @@
 최초 확인 시 저장소에는 README만 있었고 배포 주소는 HTTP 404였습니다.
 기존 앱·프레임워크·Cloudflare 설정은 없었습니다. 새 저장소나 Cloudflare 프로젝트를 만들지 않습니다.
 
+## 현재 콘텐츠
+
+2026-10-05 공식 자료를 확인한 혜택알리미, 복지멤버십, 국민내일배움카드 안내 3편을 추가했습니다.
+각 글의 sources에 공식 URL과 확인일을 기록했습니다. 기존 SAMPLE 3편은 draft: true로 보관하며 공개 목록·검색·sitemap·RSS에서 제외합니다.
+
 ## 실행
 
 Node.js 22 이상과 npm을 사용합니다.
@@ -73,7 +78,7 @@ sources: []
 - 문서의 H1은 제목에서 자동 생성합니다. 본문에는 H2/H3를 사용합니다.
 - 본문에 있는 제목만 목차에 표시합니다. 존재하지 않는 지원 대상/기간 등을 자동 생성하지 않습니다.
 - FAQ, 출처는 배열에 작성하면 화면에 표시됩니다. 비어 있으면 영역도 표시되지 않습니다.
-- 관련 글은 동일 분류 또는 겹치는 태그로 최대 5개 표시합니다. 현재 샘플 3개라 각 글에는 2개가 표시됩니다. 글이 늘면 3~5개가 자동 연결됩니다.
+- 관련 글은 동일 분류 또는 겹치는 태그로 최대 5개 표시합니다. 공개 글이 3개인 현재는 각 글에 2개가 표시됩니다. 글이 늘면 3~5개가 자동 연결됩니다.
 - 페이지를 빌드할 때 sitemap과 RSS가 자동 갱신됩니다.
 - 이미지 Markdown 사용 시 대체 텍스트와 `images` 매핑이 필수입니다.
   예: `images: {"/images/photo.webp": {width: 1200, height: 800}}`
@@ -113,13 +118,13 @@ Article/BreadcrumbList 구조화 데이터는 기본 적용됩니다.
 - 프로덕션 브랜치: 실제 연결 브랜치를 확인 (저장소 기본값 `main`)
 - Framework preset: None
 - Root directory: 저장소 루트 (빈 값 또는 `/`)
-- Build command: `npm run build`
+- Build command: 현재 기존 프로젝트는 빈 값 (사전 빌드한 dist를 직접 배포). 향후 서버 빌드 방식으로 전환 시 `npm run build` 설정
 - Build output directory: `dist`
 - Node.js: 22 (`.node-version`)
 - Functions/Worker/DB 바인딩: 불필요
 
 `wrangler.toml`은 기존 프로젝트 이름과 출력 폴더를 지정합니다.
-Cloudflare 대시보드의 실제 Git 연동/빌드 명령은 계정에서 확인해야 합니다.
+Cloudflare의 기존 Git 연동과 빌드 명령 누락은 2026-10-09 배포 로그에서 확인했습니다.
 이 설정 파일만으로 GitHub 연결이나 배포 성공을 주장할 수 없습니다.
 Git 연동이 이미 있다면 검토한 변경사항을 연결 브랜치에 올린 뒤 배포 로그를 확인하세요.
 직접 배포가 필요하면 인증된 환경에서 `npx wrangler pages deploy dist --project-name bokjisense`를 사용합니다.
@@ -127,3 +132,19 @@ Git 연동이 이미 있다면 검토한 변경사항을 연결 브랜치에 올
 
 배포 후 홈 HTTP 200, 임의 경로 HTTP 404, sitemap/robots/RSS, 모바일 메뉴/검색을 다시 확인하세요.
 Cloudflare 정적 배포 문서: https://developers.cloudflare.com/pages/framework-guides/deploy-anything/
+
+## 현재 배포 방식과 수정 절차
+
+Cloudflare 로그에서 빌드 명령이 비어 있어 빌드를 건너뛰고 dist 부재로 실패하는 것을 확인했습니다.
+기존 프로젝트의 설정을 유지하기 위해 검증된 dist를 같은 저장소에 함께 버전 관리합니다.
+Cloudflare는 main 브랜치의 dist를 정적 파일로 배포합니다. 새 프로젝트나 서버는 필요하지 않습니다.
+
+글이나 소스를 수정하면 반드시 다음 순서로 반영하세요.
+
+1. npm run build
+2. npm run lint 및 npm run check
+3. 변경한 소스와 새 dist를 같은 커밋으로 저장하고 main에 push
+4. Cloudflare 배포 성공과 실제 페이지 확인
+
+dist는 직접 편집하지 마세요. 다음 빌드 때 소스에서 다시 생성됩니다.
+글 추가에 따른 sitemap, RSS, 검색 인덱스도 이 빌드에서 함께 갱신됩니다.
